@@ -3,6 +3,7 @@ from .models import Meeting, MeetingMinute, Resource, Event
 from .views import index, getResource, getMeeting, getMeetingDetails
 from django.urls import reverse
 from django.contrib.auth.models import User
+from .forms import MeetingForm
 
 
 # Create your tests here.
@@ -82,5 +83,16 @@ class GetMeetingDetailsTest(TestCase):
     def test_meetminute(self):
         meetminute=self.minutes
         self.assertEqual(meetminute, self.minutes)
-    
+
+# Test for Forms.
+class Meeting_Form_Test(TestCase):
+# form pass if data is not empty    
+    def test_meetingform_is_valid(self):
+        form=MeetinForm(data={'meetingtitle': "some title", 'meetingdate': "2019-08-06", 'meetingtime': "12:00:00", 'location': "someplace", 'agenda': "some agenda"})
+        self.assertTrue(form.is_valid())
+
+# form fails if empty 
+    def test_meetingform_empty(self):
+        form=MeetinForm(data={'meetingtitle': " ", 'meetingdate': " ", 'meetingtime': " ", 'location': " ", 'agenda': " "})
+        self.assertFalse(form.is_valid())
 
